@@ -220,17 +220,17 @@ export const MANSION_LAYOUT: Record<string, RoomData> = {
     lighting: 'normal',
     ambientFearRate: 0.8,
     spawnPoints: [
-      { x: 320, y: 400 }
+      { x: 100, y: 400 }
     ],
     connections: [
       {
         toRoom: 'grand_ballroom',
-        position: { x: 50, y: 200 },
+        position: { x: 550, y: 200 },
         size: { x: 40, y: 80 }
       },
       {
         toRoom: 'kitchen',
-        position: { x: 550, y: 200 },
+        position: { x: 50, y: 200 },
         size: { x: 40, y: 80 }
       }
     ],
@@ -247,6 +247,72 @@ export const MANSION_LAYOUT: Record<string, RoomData> = {
         clues: [
           'Place settings are arranged for a formal dinner.',
           'The tablecloth has a few small stains.'
+        ]
+      },
+      {
+        id: 'china_cabinet',
+        name: 'China Cabinet',
+        type: 'furniture',
+        position: { x: 500, y: 250 },
+        size: { x: 60, y: 40 },
+        sprite: '/assets/objects/china_cabinet.png',
+        state: 'normal',
+        description: 'A tall cabinet displaying fine china and crystal glassware.',
+        clues: [
+          'Some glasses appear to have been recently used.',
+          'The cabinet doors are slightly ajar.'
+        ]
+      }
+    ]
+  },
+
+  conservatory: {
+    id: 'conservatory',
+    name: 'conservatory',
+    displayName: 'Conservatory',
+    description: 'A glass-walled room filled with exotic plants and elegant wicker furniture.',
+    backgroundImage: '/assets/rooms/conservatory.png',
+    width: 640,
+    height: 480,
+    lighting: 'bright',
+    ambientFearRate: 0.6,
+    spawnPoints: [
+      { x: 320, y: 400 }
+    ],
+    connections: [
+      {
+        toRoom: 'grand_ballroom',
+        position: { x: 320, y: 430 },
+        size: { x: 80, y: 40 }
+      }
+    ],
+    interactables: [
+      {
+        id: 'piano_forte',
+        name: 'Piano Forte',
+        type: 'furniture',
+        position: { x: 200, y: 300 },
+        size: { x: 80, y: 40 },
+        sprite: '/assets/objects/piano_forte.png',
+        state: 'normal',
+        description: 'An elegant piano forte with ivory keys and brass candle holders.',
+        clues: [
+          'The sheet music is open to a haunting melody.',
+          'Someone has been practicing recently.'
+        ]
+      },
+      {
+        id: 'tropical_plants',
+        name: 'Tropical Plants',
+        type: 'decoration',
+        position: { x: 450, y: 280 },
+        size: { x: 60, y: 80 },
+        sprite: '/assets/objects/tropical_plants.png',
+        state: 'normal',
+        description: 'Exotic plants with large leaves and vibrant flowers.',
+        clues: [
+          'One of the plants appears to have been recently disturbed.',
+          'Some leaves show signs of being brushed against.'
         ]
       }
     ]

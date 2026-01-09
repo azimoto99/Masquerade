@@ -13,6 +13,7 @@ interface RoomRendererProps {
   currentPlayerId: string;
   onPlayerClick?: (playerId: string) => void;
   onInteractableClick?: (interactable: InteractableObject) => void;
+  onDoorClick?: (toRoom: string, connection: any) => void;
   onEmptyClick?: (position: Vector2D) => void;
 }
 
@@ -22,6 +23,7 @@ const RoomRenderer: React.FC<RoomRendererProps> = ({
   currentPlayerId,
   onPlayerClick,
   onInteractableClick,
+  onDoorClick,
   onEmptyClick
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -232,6 +234,20 @@ const RoomRenderer: React.FC<RoomRendererProps> = ({
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
+
+    // Check if clicked on a door/connection
+    for (const connection of roomData.connections) {
+      if (
+        x >= connection.position.x - connection.size.x / 2 &&
+        x <= connection.position.x + connection.size.x / 2 &&
+        y >= connection.position.y - connection.size.y / 2 &&
+        y <= connection.position.y + connection.size.y / 2
+      ) {
+        console.log(`Door clicked: ${connection.toRoom}`);
+        onDoorClick?.(connection.toRoom, connection);
+        return;
+      }
+    }
 
     // Check if clicked on a player
     for (const player of players) {
