@@ -77,7 +77,7 @@ export const useGameStore = create<GameStore>()(
           color: '#8b5cf6',
           spritePath: '/assets/costumes/default.png'
         },
-        position: { x: 400, y: 300 },
+        position: { x: 320, y: 400 }, // Center spawn in Grand Ballroom
         currentRoom: 'grand_ballroom',
         fearLevel: 0,
         maxFear: 100,

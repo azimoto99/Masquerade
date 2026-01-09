@@ -111,7 +111,9 @@ async function initializeDiscordSDK() {
       user = await discordSdk.commands.getUser();
       channel = await discordSdk.commands.getChannel();
 
-      console.log('Discord SDK initialized (mock):', { user: user.username, channel: channel.name });
+      console.log('✅ DEVELOPMENT MODE: Discord SDK initialized with mock data');
+    console.log('👤 Mock User:', user.username, '| 🎤 Mock Channel:', channel.name);
+    console.log('💡 To test real Discord integration, deploy and launch via Discord Activities');
     }
 
     return { discordSdk, user, channel };
