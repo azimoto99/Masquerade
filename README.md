@@ -1,14 +1,138 @@
-# Masquerade Mansion
+```
+███╗░░░███╗░█████╗░░██████╗░██████╗░██╗░░░██╗███████╗██████╗░░█████╗░██████╗░███████╗
+████╗░████║██╔══██╗██╔════╝██╔═══██╗██║░░░██║██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔════╝
+██╔████╔██║███████║╚█████╗░██║██╗██║██║░░░██║█████╗░░██████╔╝███████║██║░░██║█████╗░░
+██║╚██╔╝██║██╔══██║░╚═══██╗╚██████╔╝██║░░░██║██╔══╝░░██╔══██╗██╔══██║██║░░██║██╔══╝░░
+██║░╚═╝░██║██║░░██║██████╔╝░╚═██╔═╝░╚██████╔╝███████╗██║░░██║██║░░██║██████╔╝███████╗
+╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░░░░╚═╝░░░░╚═════╝░╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚══════╝
+```
 
-A social deduction Discord Activity game where players attend a mysterious masquerade party in a haunted Victorian mansion. One player is secretly the "Ghost" trying to scare everyone away, while others have unique roles that revolve around discovering and interacting with the Ghost.
+# 🏰 **Masquerade Mansion** 👻
 
-## Features
+> *A thrilling social deduction game set in a haunted Victorian mansion, where mystery, deception, and supernatural terror collide in an unforgettable Discord experience.*
 
-- **Social Deduction Gameplay**: Multiple roles with unique objectives and abilities
-- **Discord Integration**: Native voice chat and user management
-- **Real-time Multiplayer**: Smooth synchronization for 6-10 players
-- **Atmospheric Experience**: Gothic Victorian mansion with dynamic lighting
-- **Role-based Abilities**: 9 distinct roles with unique powers and win conditions
+## 🎭 **What is Masquerade Mansion?**
+
+**Masquerade Mansion** is a sophisticated social deduction game designed as a Discord Activity, where 6-10 players attend what appears to be a glamorous masquerade ball in a mysterious Victorian mansion. Beneath the surface of elegance and revelry lies a web of intrigue, supernatural occurrences, and hidden agendas.
+
+### 🕯️ **The Premise**
+You arrive at the opulent Masquerade Mansion for what promises to be the social event of the season. Everyone wears elaborate masks and costumes, their true identities hidden behind layers of mystery. But as the night unfolds, strange occurrences begin to plague the party. Chandeliers swing wildly, cold drafts fill the air, and whispers echo through empty hallways.
+
+One guest is not what they seem... **One player is secretly the Ghost**, an otherworldly entity intent on scaring away all the party guests before their true identity is revealed.
+
+### 🎭 **The Twist**
+While the Ghost works to create terror and drive everyone from the mansion, **every other player has their own secret agenda** that uniquely interacts with the Ghost's presence. Some players want to expose the Ghost, others want to exploit it, and a few might even benefit from the chaos. The result is a complex web of alliances, betrayals, and conflicting objectives that make every game session uniquely memorable.
+
+## 🎯 **Core Gameplay**
+
+### **Real-time Social Deduction**
+- **6-10 Players** in voice-enabled sessions
+- **15-20 minute** intense gameplay sessions
+- **Discord Native** - runs directly in Discord channels
+- **Voice Communication** - discuss, accuse, and negotiate in real-time
+
+### **Dynamic Role System**
+Choose from **9 unique roles**, each with distinct objectives and abilities that revolve around the Ghost:
+
+#### 👻 **The Ghost** (Antagonist)
+*Secretly haunts the mansion, using supernatural abilities to scare guests away*
+- **Haunt Room**: Create eerie atmospheres that build fear
+- **Major Scare**: Dramatic events that terrify multiple players
+- **Lockdown**: Trap players in rooms for terrifying isolation
+- **Lights Out**: Plunge areas into darkness to amplify terror
+
+#### 🕵️ **Investigators** (Town Roles)
+- **Detective**: Unmask players and call emergency meetings
+- **Blackmailer**: Extort the Ghost or gather compromising secrets
+- **Medium**: Sense supernatural activity and commune with spirits
+- **Exorcist**: Collect ritual components to banish the Ghost
+- **Skeptic**: Debunk hauntings and expose fraudulent activity
+- **Insurance Investigator**: Document evidence for professional gain
+- **Paranormal Investigator**: Capture supernatural phenomena
+
+### 🏛️ **The Mansion**
+Explore **12 interconnected rooms** of a sprawling Victorian mansion:
+- **Grand Ballroom** - Central hub with a precarious chandelier
+- **Library** - Bookshelves hide secrets and ritual components
+- **Wine Cellar** - Dark, claustrophobic tunnels with echoing acoustics
+- **Master Bedroom** - Personal spaces with breakable mirrors
+- **Chapel** - Sacred ground for exorcism rituals
+- **And 7 more** unique locations, each with environmental hazards and strategic opportunities
+
+### 🎲 **Game Mechanics**
+
+#### **Fear System**
+Every player has a **Fear Meter (0-100%)** that rises based on:
+- Proximity to Ghost activity
+- Time spent in dark areas
+- Isolation from other players
+- Failed objectives and accusations
+
+When fear reaches 100%, players **flee the mansion** - eliminated but able to spectate.
+
+#### **Ability System**
+Each role has **unique abilities** with cooldowns:
+- **Active Abilities**: Triggered actions (hauntings, investigations)
+- **Passive Abilities**: Always-active effects (fear sensing, activity detection)
+- **Ultimate Abilities**: Powerful one-time effects (exorcisms, exposures)
+
+#### **Evidence & Deduction**
+- **Environmental Clues**: "Cold air detected in the Wine Cellar"
+- **Behavioral Evidence**: Witnessed actions and suspicious timing
+- **Supernatural Residue**: Detectable traces of Ghost activity
+- **Social Pressure**: Accusations, alliances, and betrayals
+
+### 🏆 **Win Conditions**
+**Ghost Wins:** Scare all players away OR survive until time runs out
+
+**Town Roles Win Differently:**
+- **Detective/Skeptic**: Publicly expose the Ghost
+- **Blackmailer**: Successfully extort the Ghost
+- **Exorcist**: Complete banishment ritual
+- **Medium**: Correctly identify the Ghost privately
+- **Paranormal Investigator**: Document sufficient supernatural evidence
+- **Insurance Investigator**: File accurate haunting assessment
+
+## 🌟 **Why Masquerade Mansion?**
+
+### **Unique Social Dynamics**
+Unlike traditional social deduction games, **every role has a unique relationship with the Ghost**, creating complex incentive structures:
+- Some players **benefit from Ghost activity** and want it to continue
+- Others **want the Ghost exposed** but at different times
+- A few might **exploit the Ghost** for personal gain
+- This creates **emergent alliances** that shift throughout the game
+
+### **Atmospheric Immersion**
+- **Gothic Victorian Aesthetic** with intricate details
+- **Dynamic Lighting** that responds to supernatural activity
+- **Spatial Audio** with room-specific acoustics
+- **Visual Effects** for hauntings, scares, and revelations
+
+### **Discord-Optimized**
+- **Native Integration** - runs in Discord overlay
+- **Voice Chat Built-in** - no external communication needed
+- **Easy Setup** - invite friends and start playing instantly
+- **Cross-Platform** - works on desktop and mobile Discord
+
+### **Replayability**
+- **Asymmetric Roles** - different experience each game
+- **Emergent Stories** - every session creates unique narratives
+- **Strategic Depth** - multiple paths to victory
+- **Quick Sessions** - perfect for gaming communities
+
+## 🎮 **Quick Start**
+
+### For Players
+1. **Join a Discord Server** with Masquerade Mansion
+2. **Click the Activity Button** in a voice channel
+3. **Select your role** and costume
+4. **Explore, investigate, and survive** the haunted night!
+
+### For Server Admins
+1. **Add the Activity** to your Discord server
+2. **Set up a voice channel** for gameplay
+3. **Invite 6-10 players** for optimal experience
+4. **Start the game** and watch the chaos unfold!
 
 ## Quick Start
 
@@ -123,37 +247,100 @@ Modular ability system supporting:
 - Range validation
 - Target selection
 
-## Discord Activity Setup
+---
 
-1. **Create Discord Application**
-   - Visit [Discord Developer Portal](https://discord.com/developers/applications)
-   - Create new application
-   - Add "Activities" section
+## 🔧 **Technical Setup** *(For Developers & Server Admins)*
 
-2. **Configure Activity**
-   - Set Activity URL to your deployment
-   - Configure supported platforms
-   - Set orientation and dimensions
+### Prerequisites
+- **Node.js 18+** and npm
+- **Discord Application** with Activities enabled
+- **Web hosting** for deployment
 
-3. **Deploy to Discord**
-   - Host the built application
-   - Update Activity URL in Discord
-   - Test in Discord client
+### Local Development
+```bash
+# Clone and setup
+git clone https://github.com/azimoto99/Masquerade.git
+cd Masquerade
+npm install
 
-## Contributing
+# Configure Discord credentials
+cp .env.example .env
+# Edit .env with your Discord Application ID, Public Key, and Client Secret
 
+# Start development
+npm run dev
+```
+
+### Discord Application Setup
+1. Visit [Discord Developer Portal](https://discord.com/developers/applications)
+2. Create/select your application
+3. Copy from **General Information**:
+   - `VITE_DISCORD_CLIENT_ID` ← **Application ID**
+   - `VITE_DISCORD_PUBLIC_KEY` ← **Public Key**
+   - `DISCORD_CLIENT_SECRET` ← **Client Secret** *(server-side only)*
+
+### Deployment
+1. **Build for production**: `npm run build`
+2. **Deploy** the `dist/` folder to your web server
+3. **Configure Activity URL** in Discord Developer Portal
+4. **Test** in Discord client
+
+### Available Scripts
+```bash
+npm run dev      # Development server
+npm run build    # Production build
+npm run preview  # Preview production build
+npm run lint     # Code quality checks
+npm run format   # Code formatting
+```
+
+## 🤝 **Contributing**
+
+We welcome contributions! This project is open source and community-driven.
+
+### Ways to Contribute
+- **Bug Reports**: Found an issue? [Open an issue](https://github.com/azimoto99/Masquerade/issues)
+- **Feature Requests**: Have ideas? [Start a discussion](https://github.com/azimoto99/Masquerade/discussions)
+- **Code Contributions**: See our [development roadmap](IMPLEMENTATION_OVERVIEW.md)
+- **Art & Design**: Help with visual assets and UI improvements
+
+### Development Process
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Make changes and test thoroughly
+4. Submit Pull Request with detailed description
 
-## License
+### Project Structure
+```
+src/
+├── components/     # React components
+├── systems/        # Game logic systems
+├── types/         # TypeScript definitions
+├── utils/         # Helper functions
+└── assets/        # Game assets
+```
 
-This project is licensed under the ISC License - see the LICENSE file for details.
+## 📄 **Documentation**
 
-## Acknowledgments
+- **[Technical Architecture](TECHNICAL_ARCHITECTURE.md)** - System design and tech stack
+- **[Core Mechanics](CORE_MECHANICS.md)** - Fear system, movement, abilities
+- **[Mansion Layout](MANSION_LAYOUT.md)** - Room designs and navigation
+- **[Role Abilities](ROLE_ABILITIES.md)** - Complete ability specifications
+- **[UI System](UI_SYSTEM.md)** - Interface design for Discord overlay
+- **[Art Style Guide](ART_STYLE_GUIDE.md)** - Visual design specifications
+- **[Implementation Overview](IMPLEMENTATION_OVERVIEW.md)** - Development roadmap
 
-- Inspired by social deduction games like Among Us and Werewolf
-- Gothic Victorian aesthetic inspired by classic mystery literature
-- Built with modern web technologies for Discord's platform
+## 📜 **License**
+
+This project is licensed under the **ISC License** - see the LICENSE file for details.
+
+## 🙏 **Acknowledgments**
+
+- **Inspired by** classic social deduction games like Among Us and Werewolf
+- **Visual aesthetic** draws from Gothic Victorian literature and mystery
+- **Built with** modern web technologies optimized for Discord's platform
+- **Community-driven** development with contributions welcome
+
+---
+
+**Ready to experience the terror?** Join a Discord server with Masquerade Mansion and step into the unknown! 🏰👻🎭
