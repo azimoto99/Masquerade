@@ -6,8 +6,9 @@ import ControlPanel from './ControlPanel';
 import Sidebar from './Sidebar';
 
 const Game: React.FC = () => {
-  const { gameSession, showSidebar } = useGameStore();
+  const { gameSession, showSidebar, toggleSidebar, updateFearLevels } = useGameStore();
   const gameRef = useRef<HTMLDivElement>(null);
+  const lastUpdateRef = useRef<number>(Date.now());
 
   useEffect(() => {
     // Set up game event listeners
@@ -16,7 +17,7 @@ const Game: React.FC = () => {
       switch (event.key) {
         case 'Tab':
           event.preventDefault();
-          // Toggle sidebar
+          toggleSidebar();
           break;
         case 'Escape':
           // Close modals
@@ -25,8 +26,29 @@ const Game: React.FC = () => {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+
+    // Game loop for fear updates
+    const gameLoop = () => {
+      const now = Date.now();
+      const deltaTime = now - lastUpdateRef.current;
+      lastUpdateRef.current = now;
+
+      // Update fear levels (roughly 60 FPS)
+      if (deltaTime > 16) { // ~60 FPS
+        updateFearLevels(deltaTime);
+      }
+
+      requestAnimationFrame(gameLoop);
+    };
+
+    // Start game loop
+    const loopId = requestAnimationFrame(gameLoop);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      cancelAnimationFrame(loopId);
+    };
+  }, [toggleSidebar, updateFearLevels]);
 
   if (!gameSession) {
     return (

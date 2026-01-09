@@ -13,6 +13,13 @@ const ControlPanel: React.FC = () => {
   // Get player's actual abilities
   const playerAbilities = currentPlayer.abilities || [];
 
+  // Mock target players for demonstration (in real multiplayer, this would come from game state)
+  const mockPlayers = [
+    { id: 'player1', username: 'Alice' },
+    { id: 'player2', username: 'Bob' },
+    { id: 'player3', username: 'Charlie' }
+  ];
+
   const handleAbilityClick = (abilityId: string) => {
     const ability = playerAbilities.find(a => a.id === abilityId);
     if (!ability) return;
@@ -103,9 +110,11 @@ const ControlPanel: React.FC = () => {
             className="target-select"
           >
             <option value="">Select target player...</option>
-            {/* In a real implementation, this would list all players */}
-            <option value="player1">Player 1</option>
-            <option value="player2">Player 2</option>
+            {mockPlayers.map(player => (
+              <option key={player.id} value={player.id}>
+                {player.username}
+              </option>
+            ))}
           </select>
         </div>
       )}

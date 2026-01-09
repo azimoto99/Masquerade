@@ -12,6 +12,7 @@ import {
   GameEventType,
   PlayerAbility
 } from '../types/game';
+import { FearSystem } from '../systems/FearSystem';
 
 // Helper functions for role management
 function getRoleDescription(roleId: string): string {
@@ -92,6 +93,32 @@ function executeDetectiveReveal(detectiveId: string, targetId: string, gameSessi
   return true;
 }
 
+function executeGhostHaunt(ghostId: string, gameSession: GameSession): boolean {
+  const ghost = gameSession.players.find(p => p.id === ghostId);
+  if (!ghost) return false;
+
+  // Apply fear to all players in the same room
+  const { applyGhostFear } = useGameStore.getState();
+  applyGhostFear(ghost.currentRoom, 15, 10000); // 15 fear over 10 seconds
+
+  console.log(`Ghost haunted room ${ghost.currentRoom}`);
+
+  return true;
+}
+
+function executeGhostMajorScare(ghostId: string, gameSession: GameSession): boolean {
+  const ghost = gameSession.players.find(p => p.id === ghostId);
+  if (!ghost) return false;
+
+  // Apply higher fear to all players in the same room
+  const { applyGhostFear } = useGameStore.getState();
+  applyGhostFear(ghost.currentRoom, 30, 15000); // 30 fear over 15 seconds
+
+  console.log(`Ghost created major scare in room ${ghost.currentRoom}`);
+
+  return true;
+}
+
 interface GameStore {
   // Game state
   gameSession: GameSession | null;
@@ -116,6 +143,8 @@ interface GameStore {
   setSelectedAbility: (abilityId: string | null) => void;
   toggleSidebar: () => void;
   setActiveModal: (modalId: string | null) => void;
+  updateFearLevels: (deltaTime: number) => void;
+  applyGhostFear: (roomId: string, fearIncrease: number, duration?: number) => void;
 }
 
 const defaultSettings: GameSettings = {
@@ -134,6 +163,9 @@ const defaultSettings: GameSettings = {
     'insurance_investigator', 'ghost'
   ]
 };
+
+// Create global FearSystem instance
+const fearSystem = new FearSystem();
 
 export const useGameStore = create<GameStore>()(
   subscribeWithSelector((set, get) => ({
@@ -167,6 +199,9 @@ export const useGameStore = create<GameStore>()(
         abilities: [],
         lastMovement: Date.now()
       };
+
+      // Initialize fear state for the player
+      fearSystem.initializePlayerFear(player.id, player.maxFear);
 
       const gameSession: GameSession = {
         id: `game_${Date.now()}`,
@@ -275,6 +310,29 @@ export const useGameStore = create<GameStore>()(
       set({ activeModal: modalId });
     },
 
+    // Update fear levels for all players
+    updateFearLevels: (deltaTime: number) => {
+      set((state) => {
+        if (!state.gameSession) return state;
+
+        // Update fear for all players
+        fearSystem.updateFearLevels(state.gameSession.players, deltaTime);
+
+        return state;
+      });
+    },
+
+    // Apply fear from Ghost ability
+    applyGhostFear: (roomId: string, fearIncrease: number, duration: number = 10000) => {
+      set((state) => {
+        if (!state.gameSession) return state;
+
+        fearSystem.applyGhostAbilityFear(roomId, state.gameSession.players, fearIncrease, duration);
+
+        return state;
+      });
+    },
+
     // Start the game and assign roles
     startGame: () => {
       set((state) => {
@@ -345,6 +403,12 @@ export const useGameStore = create<GameStore>()(
       switch (abilityId) {
         case 'detective_reveal':
           success = executeDetectiveReveal(currentPlayer.id, targetId || '', gameSession);
+          break;
+        case 'ghost_haunt':
+          success = executeGhostHaunt(currentPlayer.id, gameSession);
+          break;
+        case 'ghost_major_scare':
+          success = executeGhostMajorScare(currentPlayer.id, gameSession);
           break;
         default:
           console.log(`Ability ${abilityId} executed`);
