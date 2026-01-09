@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../hooks/useGameStore';
 
 const Lobby: React.FC = () => {
-  const { gameSession, startGame } = useGameStore();
+  const { gameSession, startGame, connectToServer, joinMultiplayerGame, startMultiplayerGame, isConnected, isMultiplayer } = useGameStore();
   const [isStarting, setIsStarting] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [roomId, setRoomId] = useState('');
+  const [isJoining, setIsJoining] = useState(false);
+  const [gameMode, setGameMode] = useState<'single' | 'multiplayer'>('single');
 
   const handleStartGame = async () => {
     if (!gameSession) return;
@@ -11,8 +15,12 @@ const Lobby: React.FC = () => {
     setIsStarting(true);
 
     try {
-      // Start the game (assigns roles and transitions to exploration)
-      startGame();
+      if (gameMode === 'multiplayer') {
+        startMultiplayerGame();
+      } else {
+        // Start single-player game
+        startGame();
+      }
 
       // Brief introduction phase
       setTimeout(() => {
@@ -24,6 +32,32 @@ const Lobby: React.FC = () => {
       setIsStarting(false);
     }
   };
+
+  const handleJoinMultiplayer = async () => {
+    if (!playerName.trim()) return;
+
+    setIsJoining(true);
+
+    try {
+      await connectToServer();
+      await joinMultiplayerGame(playerName.trim(), roomId.trim() || undefined);
+      setGameMode('multiplayer');
+    } catch (error) {
+      console.error('Failed to join multiplayer game:', error);
+      alert('Failed to join game. Please check your connection and try again.');
+    } finally {
+      setIsJoining(false);
+    }
+  };
+
+  // Auto-connect to server on mount for multiplayer option
+  useEffect(() => {
+    if (gameMode === 'multiplayer' && !isConnected) {
+      connectToServer().catch(error => {
+        console.error('Failed to connect to server:', error);
+      });
+    }
+  }, [gameMode, isConnected, connectToServer]);
 
   if (!gameSession) {
     return (
@@ -38,6 +72,59 @@ const Lobby: React.FC = () => {
       <div className="lobby-header">
         <h1>Masquerade Mansion</h1>
         <p>A social deduction game for Discord</p>
+      </div>
+
+      {/* Game Mode Selection */}
+      <div className="game-mode-selection">
+        <div className="mode-tabs">
+          <button
+            className={`mode-tab ${gameMode === 'single' ? 'active' : ''}`}
+            onClick={() => setGameMode('single')}
+          >
+            🎭 Single Player
+          </button>
+          <button
+            className={`mode-tab ${gameMode === 'multiplayer' ? 'active' : ''}`}
+            onClick={() => setGameMode('multiplayer')}
+          >
+            👥 Multiplayer
+            {isConnected && <span className="connection-indicator">🟢</span>}
+            {!isConnected && gameMode === 'multiplayer' && <span className="connection-indicator">🔴</span>}
+          </button>
+        </div>
+
+        {gameMode === 'multiplayer' && !isMultiplayer && (
+          <div className="multiplayer-setup">
+            <div className="setup-fields">
+              <input
+                type="text"
+                placeholder="Your name"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                className="lobby-input"
+                maxLength={20}
+              />
+              <input
+                type="text"
+                placeholder="Room ID (optional)"
+                value={roomId}
+                onChange={(e) => setRoomId(e.target.value)}
+                className="lobby-input"
+                maxLength={10}
+              />
+              <button
+                onClick={handleJoinMultiplayer}
+                disabled={!playerName.trim() || isJoining}
+                className="btn btn-primary"
+              >
+                {isJoining ? 'Joining...' : 'Join Game'}
+              </button>
+            </div>
+            {!isConnected && (
+              <p className="connection-status">Connecting to game server...</p>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="lobby-content">

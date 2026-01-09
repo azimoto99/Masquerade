@@ -13,6 +13,7 @@ import {
   PlayerAbility
 } from '../types/game';
 import { FearSystem } from '../systems/FearSystem';
+import socketService from '../services/socketService';
 
 // Helper functions for role management
 function getRoleDescription(roleId: string): string {
@@ -119,6 +120,116 @@ function executeGhostMajorScare(ghostId: string, gameSession: GameSession): bool
   return true;
 }
 
+// Socket event listeners setup
+function setupSocketListeners(set: any) {
+  // Player events
+  socketService.on('player_joined', (data: { player: Player }) => {
+    set((state: any) => {
+      if (!state.gameSession) return state;
+
+      // Add new player to session
+      const updatedPlayers = [...state.gameSession.players];
+      const existingIndex = updatedPlayers.findIndex((p: Player) => p.id === data.player.id);
+
+      if (existingIndex === -1) {
+        updatedPlayers.push(data.player);
+      } else {
+        updatedPlayers[existingIndex] = data.player;
+      }
+
+      return {
+        gameSession: {
+          ...state.gameSession,
+          players: updatedPlayers
+        }
+      };
+    });
+  });
+
+  socketService.on('player_left', (data: { playerId: string }) => {
+    set((state: any) => {
+      if (!state.gameSession) return state;
+
+      const updatedPlayers = state.gameSession.players.filter((p: Player) => p.id !== data.playerId);
+
+      return {
+        gameSession: {
+          ...state.gameSession,
+          players: updatedPlayers
+        }
+      };
+    });
+  });
+
+  socketService.on('player_moved', (data: { playerId: string; position: Vector2D; currentRoom: string }) => {
+    set((state: any) => {
+      if (!state.gameSession) return state;
+
+      const updatedPlayers = state.gameSession.players.map((player: Player) =>
+        player.id === data.playerId
+          ? { ...player, position: data.position, currentRoom: data.currentRoom }
+          : player
+      );
+
+      return {
+        gameSession: {
+          ...state.gameSession,
+          players: updatedPlayers
+        }
+      };
+    });
+  });
+
+  // Game events
+  socketService.on('game_started', (data: { room: any }) => {
+    set((state: any) => {
+      if (!state.gameSession) return state;
+
+      // Update game session with server data
+      return {
+        gameSession: {
+          ...state.gameSession,
+          players: data.room.players,
+          currentPhase: GamePhase.EXPLORATION
+        }
+      };
+    });
+  });
+
+  // Ability events
+  socketService.on('ability_result', (data: any) => {
+    console.log('Ability result:', data);
+    // Handle ability results (reveals, etc.)
+  });
+
+  socketService.on('ghost_ability_used', (data: { abilityId: string; playerId: string; roomId: string }) => {
+    console.log('Ghost ability used:', data);
+
+    // Apply fear effects locally
+    const { applyGhostFear } = useGameStore.getState();
+    const fearIncrease = data.abilityId === 'ghost_haunt' ? 15 : 30;
+    const duration = data.abilityId === 'ghost_haunt' ? 10000 : 15000;
+
+    applyGhostFear(data.roomId, fearIncrease, duration);
+  });
+
+  // Chat events
+  socketService.on('chat_message', (data: any) => {
+    // Handle public chat messages
+    console.log('Chat message:', data);
+  });
+
+  socketService.on('private_message', (data: any) => {
+    // Handle private messages
+    console.log('Private message:', data);
+  });
+
+  // Error handling
+  socketService.on('error', (error: any) => {
+    console.error('Socket error:', error);
+  });
+}
+
 interface GameStore {
   // Game state
   gameSession: GameSession | null;
@@ -145,6 +256,14 @@ interface GameStore {
   setActiveModal: (modalId: string | null) => void;
   updateFearLevels: (deltaTime: number) => void;
   applyGhostFear: (roomId: string, fearIncrease: number, duration?: number) => void;
+  isMultiplayer: boolean;
+
+  // Multiplayer actions
+  connectToServer: () => Promise<void>;
+  joinMultiplayerGame: (playerName: string, roomId?: string) => Promise<void>;
+  startMultiplayerGame: () => void;
+  sendMovement: (position: Vector2D) => void;
+  sendAbility: (abilityId: string, targetId?: string) => void;
 }
 
 const defaultSettings: GameSettings = {
@@ -177,6 +296,7 @@ export const useGameStore = create<GameStore>()(
     selectedAbility: null,
     showSidebar: true,
     activeModal: null,
+    isMultiplayer: false,
 
     // Initialize game with Discord context
     initializeGame: (user: any) => {
@@ -331,6 +451,73 @@ export const useGameStore = create<GameStore>()(
 
         return state;
       });
+    },
+
+    // Connect to multiplayer server
+    connectToServer: async () => {
+      try {
+        await socketService.connect();
+        set({ isConnected: true });
+        console.log('🎮 Connected to multiplayer server');
+
+        // Set up event listeners
+        setupSocketListeners(set);
+      } catch (error) {
+        console.error('Failed to connect to server:', error);
+        throw error;
+      }
+    },
+
+    // Join multiplayer game
+    joinMultiplayerGame: async (playerName: string, roomId?: string) => {
+      try {
+        const { room, player } = await socketService.joinGame(playerName, roomId);
+
+        // Create game session from room data
+        const gameSession: GameSession = {
+          id: room.id,
+          players: room.players,
+          currentPhase: room.currentPhase as GamePhase,
+          timeRemaining: 18 * 60 * 1000, // 18 minutes
+          startTime: Date.now(),
+          settings: {
+            maxPlayers: room.maxPlayers,
+            gameDuration: 18,
+            fearDecayRate: 2,
+            hauntingCooldowns: {},
+            rolesEnabled: []
+          }
+        };
+
+        set({
+          gameSession,
+          currentPlayer: player,
+          isMultiplayer: true
+        });
+
+        // Initialize fear for current player
+        fearSystem.initializePlayerFear(player.id, player.maxFear || 100);
+
+        console.log(`🎭 Joined multiplayer game in room ${room.id}`);
+      } catch (error) {
+        console.error('Failed to join multiplayer game:', error);
+        throw error;
+      }
+    },
+
+    // Start multiplayer game
+    startMultiplayerGame: () => {
+      socketService.startGame();
+    },
+
+    // Send movement to server
+    sendMovement: (position: Vector2D) => {
+      socketService.sendMovement(position);
+    },
+
+    // Send ability usage to server
+    sendAbility: (abilityId: string, targetId?: string) => {
+      socketService.useAbility(abilityId, targetId);
     },
 
     // Start the game and assign roles

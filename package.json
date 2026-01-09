@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "server": "tsx server/server.ts",
+    "dev:full": "concurrently \"npm run server\" \"npm run dev\"",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext ts,tsx --fix",
     "format": "prettier --write src/**/*.{ts,tsx,json,css}"
@@ -34,12 +36,15 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.52.0",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
-    "prettier": "^3.7.4"
+    "prettier": "^3.7.4",
+    "tsx": "^4.21.0"
   }
 }

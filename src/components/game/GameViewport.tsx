@@ -5,7 +5,7 @@ import { InteractableObject } from '../../types/rooms';
 import RoomRenderer from './RoomRenderer';
 
 const GameViewport: React.FC = () => {
-  const { currentPlayer, movePlayer, changeRoom, gameSession } = useGameStore();
+  const { currentPlayer, movePlayer, changeRoom, gameSession, sendMovement, isMultiplayer } = useGameStore();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   if (!gameSession || !currentPlayer) {
@@ -74,8 +74,13 @@ const GameViewport: React.FC = () => {
   const handleEmptyClick = (position: Vector2D) => {
     if (!currentPlayer) return;
 
-    // Move player to clicked position
+    // Move player locally
     movePlayer(currentPlayer.id, position);
+
+    // Send movement to server in multiplayer
+    if (isMultiplayer) {
+      sendMovement(position);
+    }
   };
 
   const currentRoomId = currentPlayer.currentRoom;

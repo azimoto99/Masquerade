@@ -422,6 +422,82 @@ html, body, #root {
   font-size: var(--font-sm);
 }
 
+/* Game Mode Selection */
+.game-mode-selection {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mode-tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.mode-tab {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 2px solid var(--border-color);
+  background: var(--secondary-bg);
+  color: var(--text-primary);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-md);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.mode-tab:hover {
+  border-color: var(--accent-color);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.mode-tab.active {
+  border-color: var(--accent-color);
+  background: var(--accent-color);
+  color: white;
+}
+
+.connection-indicator {
+  font-size: var(--font-lg);
+}
+
+.multiplayer-setup {
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+}
+
+.setup-fields {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.lobby-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--primary-bg);
+  color: var(--text-primary);
+  font-size: var(--font-md);
+  min-width: 150px;
+}
+
+.lobby-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.connection-status {
+  color: var(--text-secondary);
+  font-size: var(--font-sm);
+  margin: 0;
+}
+
 /* Game Layout */
 .game {
   display: flex;

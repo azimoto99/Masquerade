@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useGameStore } from '../../hooks/useGameStore';
 
 const ControlPanel: React.FC = () => {
-  const { currentPlayer, selectedAbility, setSelectedAbility, useAbility } = useGameStore();
+  const { currentPlayer, selectedAbility, setSelectedAbility, useAbility, sendAbility, isMultiplayer } = useGameStore();
   const [chatMessage, setChatMessage] = useState('');
   const [targetPlayer, setTargetPlayer] = useState<string>('');
 
@@ -34,6 +34,12 @@ const ControlPanel: React.FC = () => {
       const success = useAbility(abilityId, targetPlayer || undefined);
       if (success) {
         console.log(`Successfully used ability: ${ability.name}`);
+
+        // Send to server in multiplayer
+        if (isMultiplayer) {
+          sendAbility(abilityId, targetPlayer || undefined);
+        }
+
         if (ability.targetType === 'player') {
           setTargetPlayer('');
         }
