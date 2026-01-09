@@ -287,12 +287,44 @@ npm run dev
 
 ### Available Scripts
 ```bash
-npm run dev      # Development server
-npm run build    # Production build
-npm run preview  # Preview production build
-npm run lint     # Code quality checks
-npm run format   # Code formatting
+npm run dev         # Start development client only
+npm run server      # Start multiplayer server only
+npm run dev:full    # Start both client and server concurrently
+npm run build       # Build for production
+npm run preview     # Preview production build
+npm run lint        # Code quality checks
+npm run format      # Code formatting
 ```
+
+### Multiplayer Setup
+
+For multiplayer functionality, you need both the client and server running:
+
+1. **Start the multiplayer server:**
+   ```bash
+   npm run server
+   # Server runs on http://localhost:3001
+   ```
+
+2. **Start the client (in another terminal):**
+   ```bash
+   npm run dev
+   # Client runs on http://localhost:3000
+   ```
+
+3. **Or run both together:**
+   ```bash
+   npm run dev:full
+   ```
+
+4. **Play multiplayer:**
+   - Open the game in your browser
+   - Select "Multiplayer" mode in the lobby
+   - Enter your name and optionally a room ID
+   - Click "Join Game" to enter a multiplayer room
+   - Share the room ID with friends to play together
+
+**Note:** The server must be running for multiplayer to work. Single-player mode works without the server.
 
 ## 🤝 **Contributing**
 
