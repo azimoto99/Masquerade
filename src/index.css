@@ -550,6 +550,23 @@ html, body, #root {
   box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
 }
 
+.ability-button.cooldown {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cooldown-timer {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 10px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
 .ability-icon {
   font-size: 20px;
   margin-bottom: 2px;
@@ -584,6 +601,25 @@ html, body, #root {
 
 .voice-icon {
   font-size: 16px;
+}
+
+.target-selection {
+  margin-top: var(--spacing-sm);
+}
+
+.target-select {
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+}
+
+.target-select:focus {
+  outline: none;
+  border-color: var(--accent-color);
 }
 
 /* Sidebar */

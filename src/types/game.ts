@@ -51,7 +51,7 @@ export interface Player {
   maxFear: number;
   status: PlayerStatus;
   role?: Role; // Hidden from other players
-  abilities: Ability[];
+  abilities: PlayerAbility[];
   lastMovement: number;
   immuneUntil?: number; // For Bodyguard protection
 }
@@ -123,6 +123,10 @@ export interface Ability {
   cost?: AbilityCost;
   effects: AbilityEffect[];
   validationRules: ValidationRules;
+}
+
+export interface PlayerAbility extends Ability {
+  lastUsed?: number; // Timestamp when ability was last used
 }
 
 export interface AbilityRange {

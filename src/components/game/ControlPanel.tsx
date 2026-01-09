@@ -2,45 +2,56 @@ import React, { useState } from 'react';
 import { useGameStore } from '../../hooks/useGameStore';
 
 const ControlPanel: React.FC = () => {
-  const { currentPlayer, selectedAbility, setSelectedAbility } = useGameStore();
+  const { currentPlayer, selectedAbility, setSelectedAbility, useAbility } = useGameStore();
   const [chatMessage, setChatMessage] = useState('');
+  const [targetPlayer, setTargetPlayer] = useState<string>('');
 
   if (!currentPlayer) {
     return null;
   }
 
-  // Mock abilities for demonstration
-  const mockAbilities = [
-    {
-      id: 'move',
-      name: 'Move',
-      icon: '🚶',
-      description: 'Move around the mansion',
-      available: true
-    },
-    {
-      id: 'investigate',
-      name: 'Investigate',
-      icon: '🔍',
-      description: 'Examine your surroundings',
-      available: true
-    },
-    {
-      id: 'talk',
-      name: 'Talk',
-      icon: '💬',
-      description: 'Communicate with nearby players',
-      available: true
-    }
-  ];
+  // Get player's actual abilities
+  const playerAbilities = currentPlayer.abilities || [];
 
   const handleAbilityClick = (abilityId: string) => {
+    const ability = playerAbilities.find(a => a.id === abilityId);
+    if (!ability) return;
+
     if (selectedAbility === abilityId) {
+      // Execute the ability
+      if (ability.targetType === 'player' && !targetPlayer) {
+        console.log('Please select a target player first');
+        return;
+      }
+
+      const success = useAbility(abilityId, targetPlayer || undefined);
+      if (success) {
+        console.log(`Successfully used ability: ${ability.name}`);
+        if (ability.targetType === 'player') {
+          setTargetPlayer('');
+        }
+      } else {
+        console.log(`Failed to use ability: ${ability.name} (on cooldown or invalid)`);
+      }
       setSelectedAbility(null);
     } else {
+      // Select the ability
       setSelectedAbility(abilityId);
-      console.log(`Selected ability: ${abilityId}`);
+      console.log(`Selected ability: ${ability.name}`);
     }
+  };
+
+  const isAbilityOnCooldown = (ability: any) => {
+    if (!ability.lastUsed) return false;
+    const now = Date.now();
+    return now - ability.lastUsed < ability.cooldown;
+  };
+
+  const getCooldownTime = (ability: any) => {
+    if (!ability.lastUsed) return 0;
+    const now = Date.now();
+    const remaining = ability.cooldown - (now - ability.lastUsed);
+    return Math.max(0, Math.ceil(remaining / 1000));
   };
 
   const handleSendMessage = () => {
@@ -61,19 +72,43 @@ const ControlPanel: React.FC = () => {
     <div className="control-panel">
       {/* Ability Bar */}
       <div className="ability-bar">
-        {mockAbilities.map((ability) => (
-          <button
-            key={ability.id}
-            className={`ability-button ${selectedAbility === ability.id ? 'selected' : ''}`}
-            onClick={() => handleAbilityClick(ability.id)}
-            disabled={!ability.available}
-            title={ability.description}
-          >
-            <div className="ability-icon">{ability.icon}</div>
-            <div className="ability-name">{ability.name}</div>
-          </button>
-        ))}
+        {playerAbilities.map((ability) => {
+          const onCooldown = isAbilityOnCooldown(ability);
+          const cooldownTime = getCooldownTime(ability);
+
+          return (
+            <button
+              key={ability.id}
+              className={`ability-button ${selectedAbility === ability.id ? 'selected' : ''} ${onCooldown ? 'cooldown' : ''}`}
+              onClick={() => handleAbilityClick(ability.id)}
+              disabled={onCooldown}
+              title={`${ability.name}: ${ability.description}${onCooldown ? ` (Cooldown: ${cooldownTime}s)` : ''}`}
+            >
+              <div className="ability-icon">{ability.icon}</div>
+              <div className="ability-name">{ability.name}</div>
+              {onCooldown && (
+                <div className="cooldown-timer">{cooldownTime}</div>
+              )}
+            </button>
+          );
+        })}
       </div>
+
+      {/* Target Selection (when ability requires a player target) */}
+      {selectedAbility && playerAbilities.find(a => a.id === selectedAbility)?.targetType === 'player' && (
+        <div className="target-selection">
+          <select
+            value={targetPlayer}
+            onChange={(e) => setTargetPlayer(e.target.value)}
+            className="target-select"
+          >
+            <option value="">Select target player...</option>
+            {/* In a real implementation, this would list all players */}
+            <option value="player1">Player 1</option>
+            <option value="player2">Player 2</option>
+          </select>
+        </div>
+      )}
 
       {/* Quick Chat */}
       <div className="quick-chat">

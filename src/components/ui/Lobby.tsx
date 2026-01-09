@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../hooks/useGameStore';
-import { GamePhase } from '../../types/game';
 
 const Lobby: React.FC = () => {
-  const { gameSession, updateGameSession } = useGameStore();
+  const { gameSession, startGame } = useGameStore();
   const [isStarting, setIsStarting] = useState(false);
 
   const handleStartGame = async () => {
@@ -12,23 +11,13 @@ const Lobby: React.FC = () => {
     setIsStarting(true);
 
     try {
-      // Transition to game
-      updateGameSession({
-        currentPhase: GamePhase.INTRODUCTION
-      });
+      // Start the game (assigns roles and transitions to exploration)
+      startGame();
 
-      // In a full implementation, this would:
-      // 1. Assign roles randomly
-      // 2. Assign costumes
-      // 3. Sync with all players
-      // 4. Start the game timer
-
+      // Brief introduction phase
       setTimeout(() => {
-        updateGameSession({
-          currentPhase: GamePhase.EXPLORATION
-        });
         setIsStarting(false);
-      }, 3000); // Brief introduction phase
+      }, 1000);
 
     } catch (error) {
       console.error('Failed to start game:', error);
